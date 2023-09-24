@@ -84,7 +84,7 @@ public:
             for (int c2 = c1 + 1; c2 < m_nNumberOfColors; c2++) {
                 Minisat::Var v_n_c1 = node * m_nNumberOfColors + c1;
                 Minisat::Var v_n_c2 = node * m_nNumberOfColors + c2;
-                printf("v_n_c1 %d = FALSE or v_n_c2 %d = FALSE\n", v_n_c1, v_n_c2);
+                printf("v_%d_%d %d = FALSE or v_%d_%d %d = FALSE\n", node, c1, v_n_c1, node, c2, v_n_c2);
                 m_solver.addClause(Minisat::mkLit(v_n_c1, FALSE),
                                    Minisat::mkLit(v_n_c2, FALSE));
             }
@@ -101,7 +101,7 @@ public:
             Minisat::Var v_n1_c = n1 * m_nNumberOfColors + c;
             Minisat::Var v_n2_c = n2 * m_nNumberOfColors + c;
 
-            printf("v_n1_c %d = FALSE or v_n2_c %d = FALSE\n", v_n1_c, v_n2_c);
+            printf("v_%d_%d %d= FALSE or v_%d_%d %d= FALSE\n", n1, c, var_n1_c, n2, c, v_n2_c);
             m_solver.addClause(Minisat::mkLit(v_n1_c, FALSE),
                                Minisat::mkLit(v_n2_c, FALSE));
         }
