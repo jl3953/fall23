@@ -101,7 +101,7 @@ public:
             Minisat::Var v_n1_c = n1 * m_nNumberOfColors + c;
             Minisat::Var v_n2_c = n2 * m_nNumberOfColors + c;
 
-            printf("v_%d_%d %d= FALSE or v_%d_%d %d= FALSE\n", n1, c, var_n1_c, n2, c, v_n2_c);
+            printf("v_%d_%d %d= FALSE or v_%d_%d %d= FALSE\n", n1, c, v_n1_c, n2, c, v_n2_c);
             m_solver.addClause(Minisat::mkLit(v_n1_c, FALSE),
                                Minisat::mkLit(v_n2_c, FALSE));
         }
