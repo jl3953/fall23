@@ -174,7 +174,7 @@ public:
             for (int n = 0; n < m_graph.getNumberOfNodes(); n++) {
                 for (int c = 0; c < m_nNumberOfColors; c++) {
                     if (solution[n * m_nNumberOfColors + c] == Minisat::l_True)
-                        printf("n%d=%d, ");
+                        printf("n%d=%d, ", n, c);
                 }
             }
             printf("\n");
