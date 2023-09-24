@@ -123,7 +123,7 @@ public:
             }
         }
 
-        m_solver.toDimacs("jenndebug.cnf");
+//        m_solver.toDimacs("jenndebug.cnf");
 
         bool bResult = m_solver.solve();
         return bResult;
