@@ -128,8 +128,6 @@ public:
                 for (int c = 0; c < m_nNumberOfColors; c++) {
                     if (m_solver.modelValue(n * m_nNumberOfColors + c) == Minisat::l_True) {
                         printf("node %d is color %d, v_%d_%d true\n", n, c, n, c);
-                    } else {
-                        printf("node %d is color %d, v_%d_%d false\n", n, c, n, c);
                     }
                 }
             }
