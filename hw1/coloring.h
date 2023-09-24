@@ -120,7 +120,7 @@ public:
             vector<int> edges = m_graph.getEdgesForNode(n);
             for (int adjcent = 0; adjcent < edges.size(); adjcent++)
             {
-                printf("node %d, adjacent %d\n", n, adjcent);
+                printf("node %d, adjacent %d\n", n, edges[adjcent]);
                 addEdgeColoringConstraints(n, edges[adjcent]);
             }
         }
