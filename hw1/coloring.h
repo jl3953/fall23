@@ -117,7 +117,7 @@ public:
         }
 
         bool bResult = m_solver.solve();
-
+        printf("bResult %d\n", bResult);
         if (bResult) {
             for (int n = 0; n < m_graph.getNumberOfNodes(); n++)
                 for (int c = 0; c < m_nNumberOfColors; c++)
