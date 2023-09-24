@@ -77,8 +77,8 @@ public:
                 Minisat::Var v_n_c1 = node * m_nNumberOfColors + c1;
                 Minisat::Var v_n_c2 = node * m_nNumberOfColors + c2;
                 printf("coloring: v_%d_%d %d = FALSE or v_%d_%d %d = FALSE\n", node, c1, v_n_c1, node, c2, v_n_c2);
-                m_solver.addClause(Minisat::mkLit(v_n_c1, FALSE),
-                                   Minisat::mkLit(v_n_c2, FALSE));
+                m_solver.addClause(Minisat::mkLit(v_n_c1, Minisat::l_false),
+                                   Minisat::mkLit(v_n_c2, Minisat::l_false));
             }
         }
 
@@ -94,8 +94,8 @@ public:
             Minisat::Var v_n2_c = n2 * m_nNumberOfColors + c;
 
             printf("edge: v_%d_%d %d= FALSE or v_%d_%d %d= FALSE\n", n1, c, v_n1_c, n2, c, v_n2_c);
-            m_solver.addClause(Minisat::mkLit(v_n1_c, FALSE),
-                               Minisat::mkLit(v_n2_c, FALSE));
+            m_solver.addClause(Minisat::mkLit(v_n1_c, Minisat::l_false),
+                               Minisat::mkLit(v_n2_c, Minisat::l_false));
         }
 
         m_solver.toDimacs("help.cnf");
@@ -119,10 +119,15 @@ public:
         bool bResult = m_solver.solve();
         printf("bResult %d\n", bResult);
         if (bResult) {
-            for (int n = 0; n < m_graph.getNumberOfNodes(); n++)
-                for (int c = 0; c < m_nNumberOfColors; c++)
-                    if (m_solver.modelValue(n * m_nNumberOfColors + c) == Minisat::l_True)
+            for (int n = 0; n < m_graph.getNumberOfNodes(); n++) {
+                for (int c = 0; c < m_nNumberOfColors; c++) {
+                    if (m_solver.modelValue(n * m_nNumberOfColors + c) == Minisat::l_True) {
                         printf("node %d is color %d, v_%d_%d true\n", n, c, n, c);
+                    } else {
+                        printf("node %d is color %d, v_%d_%d false\n", n, c, n, c);
+                    }
+                }
+            }
         }
 
         return bResult;
