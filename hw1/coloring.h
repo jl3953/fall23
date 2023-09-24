@@ -106,7 +106,6 @@ public:
                                Minisat::mkLit(v_n2_c, FALSE));
         }
 
-        m_solver.toDimacs("help.cnf");
 
     }
 
@@ -123,6 +122,8 @@ public:
                 addEdgeColoringConstraints(n, edges[adjcent]);
             }
         }
+
+        m_solver.toDimacs("help.cnf");
 
         bool bResult = m_solver.solve();
         printf("bResult %d\n", bResult);
