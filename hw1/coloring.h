@@ -163,7 +163,6 @@ public:
                     }
                 }
             }
-            printf("\n");
             allColoring.push_back(solution);
             m_solver.addClause(clause);
             res = m_solver.solve();

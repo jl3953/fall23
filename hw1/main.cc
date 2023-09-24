@@ -32,7 +32,6 @@ int main()
 
     if (bResult) {
         printf("\tThe graph is %d-colorable.\n\n", k);
-        printf("%s\n", allColoring);
     }
     else {
         printf("\tNo %d-coloring is found!\n\n", k);
