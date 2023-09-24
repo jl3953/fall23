@@ -1,0 +1,9 @@
+// **************
+// Demo for the Pigeon Hole Problem (PHP) using Z3
+//
+// Can n+1 pigeons fits in n holes?
+// Run the command: python runphp.py n
+//
+// (Try it for small values of n, less than 12, or it will take too long!)
+//
+// **************

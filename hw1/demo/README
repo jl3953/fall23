@@ -1,0 +1,9 @@
+// **************
+// Demo for the Pigeon Hole Problem (PHP) in MiniSat
+//
+// Can p pigeons fits in h holes?
+// Run the command: ./php p h
+//
+// (Try it for small values, less than 10, or it will take too long!)
+//
+// **************
