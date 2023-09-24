@@ -123,20 +123,9 @@ public:
             }
         }
 
-        m_solver.toDimacs("help.cnf");
+        m_solver.toDimacs("jenndebug.cnf");
 
         bool bResult = m_solver.solve();
-        printf("bResult %d\n", bResult);
-        if (bResult) {
-            for (int n = 0; n < m_graph.getNumberOfNodes(); n++) {
-                for (int c = 0; c < m_nNumberOfColors; c++) {
-                    if (m_solver.modelValue(n * m_nNumberOfColors + c) == Minisat::l_True) {
-                        printf("node %d is color %d, v_%d_%d true\n", n, c, n, c);
-                    }
-                }
-            }
-        }
-
         return bResult;
     }
 
@@ -157,11 +146,28 @@ public:
         }
 
         bool res = m_solver.solve();
-        if (res) {
-            for (int n = 0; n < m_graph.getNumberOfNodes(); n++)
-                for (int c = 0; c < m_nNumberOfColors; c++)
-                    if (m_solver.modelValue(n * m_nNumberOfColors + c) == Minisat::l_True)
+        while (res) {
+            vector<Minisat::lbool> solution;
+            Minisat::vec <Minisat::Lit> clause;
+            for (int n = 0; n < m_graph.getNumberOfNodes(); n++) {
+                for (int c = 0; c < m_nNumberOfColors; c++) {
+
+                    Minisat::Var v_n_c = n * m_nNumberOfColors + c;
+
+                    // add coloring to solution
+                    solution.push_back(m_solver.modelValue(var_n_c));
+
+                    if (m_solver.modelValue(n * m_nNumberOfColors + c) == Minisat::l_True) {
                         printf("node %d is color %d, v_%d_%d true\n", n, c, n, c);
+
+                        // add to clause
+                        clause.push(Minisat::mkLit(v_n_c, FALSE));
+                    }
+                }
+            }
+            allColoring.push_back(solution);
+            m_solver.addClause(clause);
+            res = m_solver.solve();
         }
     }
 

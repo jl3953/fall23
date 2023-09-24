@@ -29,65 +29,64 @@
 #include "minisat/core/Solver.h"
 #include "minisat/utils/System.h"
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
 
-  if (argc != 3)
-    exit(1);
+    if (argc != 3)
+        exit(1);
 
-  int p = atoi(argv[1]);
-  int h = atoi(argv[2]);
+    int p = atoi(argv[1]);
+    int h = atoi(argv[2]);
 
-  if ((p < 1) || (h < 1))
-    exit(1);
+    if ((p < 1) || (h < 1))
+        exit(1);
 
-  printf("Trying to place %d pigeons in %d holes\n", p, h);
-  
-  Minisat::Solver s;
-  s.verbosity = 1;
+    printf("Trying to place %d pigeons in %d holes\n", p, h);
 
-  // Create the variables
-  for (int i=0; i < p; i++) {
-    for (int j=0; j < h; j++)
-      Minisat::Var v = s.newVar(); // Var h*i + j = pigeon i has a place in hole j;
-  }
+    Minisat::Solver s;
+    s.verbosity = 1;
 
-  // p clauses - each pigeon has to be placed in some hole
-  for (int i=0; i < p; i++) {
-    Minisat::vec<Minisat::Lit> clause;
-    for (int j=0; j < h; j++) {
-      Minisat::Var v = h*i + j; // = pigeon i has a place in hole j;
-      clause.push(Minisat::mkLit(v, false));
+    // Create the variables
+    for (int i = 0; i < p; i++) {
+        for (int j = 0; j < h; j++)
+            Minisat::Var v = s.newVar(); // Var h*i + j = pigeon i has a place in hole j;
     }
-    s.addClause(clause);
-  }
 
-  // For each hole make sure that only one pigeon is placed in it.
-  for (int j=0; j < h; j++)
-    for (int i=0; i < p-1; i++)
-      for (int k=i+1; k < p; k++) {
-        s.addClause(Minisat::mkLit(h*i + j, true), Minisat::mkLit(h*k + j, true));
-      }
-  
-  double initial_time = Minisat::cpuTime();
+    // p clauses - each pigeon has to be placed in some hole
+    for (int i = 0; i < p; i++) {
+        Minisat::vec <Minisat::Lit> clause;
+        for (int j = 0; j < h; j++) {
+            Minisat::Var v = h * i + j; // = pigeon i has a place in hole j;
+            clause.push(Minisat::mkLit(v, false));
+        }
+        s.addClause(clause);
+    }
 
-  // Write out the SAT problem in DIMACS format
-  s.toDimacs("problem.cnf");
+    // For each hole make sure that only one pigeon is placed in it.
+    for (int j = 0; j < h; j++)
+        for (int i = 0; i < p - 1; i++)
+            for (int k = i + 1; k < p; k++) {
+                s.addClause(Minisat::mkLit(h * i + j, true), Minisat::mkLit(h * k + j, true));
+            }
 
-  // Call the solver
-  bool res = s.solve();
+    double initial_time = Minisat::cpuTime();
 
-  // Print the result and the satisfying solution (if SAT) 
-  if (res) {
-    printf("There is a solution!\n");
-    for (int i=0; i < p; i++)
-      for (int j=0; j < h; j++)
-        if (s.modelValue(h*i +j) == Minisat::l_True)
-          printf("Pigeon %d in hole %d\n", i, j);
-  }
-  else printf("UNSAT!\n");
+    // Write out the SAT problem in DIMACS format
+    s.toDimacs("problem.cnf");
 
-  // Print solver statistics
-  printf("Time to solve: %12.2f s\n", Minisat::cpuTime() - initial_time);
-  return 0;
+    // Call the solver
+    bool res = s.solve();
+
+    // Print the result and the satisfying solution (if SAT)
+    if (res) {
+        printf("There is a solution!\n");
+        for (int i = 0; i < p; i++)
+            for (int j = 0; j < h; j++)
+                if (s.modelValue(h * i + j) == Minisat::l_True)
+                    printf("Pigeon %d in hole %d\n", i, j);
+    } else printf("UNSAT!\n");
+
+    // Print solver statistics
+    printf("Time to solve: %12.2f s\n", Minisat::cpuTime() - initial_time);
+    return 0;
 
 }
