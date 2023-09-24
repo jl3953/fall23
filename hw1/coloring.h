@@ -7,8 +7,8 @@
 using namespace std;
 
 // since the minisat solver reverses truth values
-const bool TRUE = false;
-const bool FALSE = true;
+const bool TRUE = true;
+const bool FALSE = false;
 
 // ***************************************************************************
 // A graph class. 
