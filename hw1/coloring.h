@@ -84,7 +84,7 @@ public:
 
         Minisat::vec<Minisat::Lit> clause;
         for (int c = 0; c < m_nNumberOfColors; c++) {
-            clause.push(Minisat::mkLit(node * m_nNumberOfColors + c));Z
+            clause.push(Minisat::mkLit(node * m_nNumberOfColors + c));
             printf("v_%d_%d = TRUE or ", node, c);
         }
         printf("\n");
