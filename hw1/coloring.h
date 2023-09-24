@@ -6,6 +6,10 @@
 
 using namespace std;
 
+// since the minisat solver reverses truth values
+const bool TRUE = false;
+const bool FALSE = true;
+
 // ***************************************************************************
 // A graph class. 
 // Note that when adding an edge (n1,n2) n1 must be less or 
@@ -76,7 +80,15 @@ public:
     void addOneColorConstraints(int node) {
         assert (node < m_graph.getNumberOfNodes());
 
-        // Add your code here
+        for (int c1 = 0; c1 < m_nNumberOfColors-1; c1++) {
+            for (int c2 = c1 + 1; c2 < m_nNumberOfColors; c2++) {
+                Minisat::Var v_n_c1 = node * m_nNumberOfColors + c1;
+                Minisat::Var v_n_c2 = node * m_nNumberOfColors + c2;
+                m_solver.addClause(Minisat::mkLit(v_n_c1, FALSE),
+                                   Minisat::mkLit(v_n_c2, FALSE));
+            }
+        }
+
     }
 
     void addEdgeColoringConstraints(int n1, int n2) {
@@ -84,7 +96,13 @@ public:
                 n2 < m_graph.getNumberOfNodes());
         assert (n1 <= n2);
 
-        // Add your code here
+        for (int c = 0; c < m_nNumberOfColors; c++) {
+            Minisat::Var v_n1_c = n1 * m_nNumberOfColors + c;
+            Minisat::Var v_n2_c = n2 * m_nNumberOfColors + c;
+
+            m_solver.addClause(Minisat::mkLit(v_n1_c, FALSE),
+                               Minisat::mkLit(v_n2_c, FALSE));
+        }
 
     }
 
