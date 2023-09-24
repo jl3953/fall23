@@ -7,8 +7,8 @@
 using namespace std;
 
 // since the minisat solver reverses truth values
-const bool TRUE = true;
-const bool FALSE = false;
+const bool TRUE = false;
+const bool FALSE = true;
 
 // ***************************************************************************
 // A graph class. 
@@ -106,6 +106,8 @@ public:
                                Minisat::mkLit(v_n2_c, FALSE));
         }
 
+        m_solver.toDimacs("help.cnf");
+
     }
 
     bool isColorable()
@@ -148,7 +150,13 @@ public:
             }
         }
 
-        // Add your code here
+        bool res = m_solver.solve();
+        if (res) {
+            for (int n = 0; n < m_graph.getNumberOfNodes(); n++)
+                for (int c = 0; c < m_nNumberOfColors; c++)
+                    if (m_solver.modelValue(n*m_nNumberOfColors + c) == Minisat::l_True)
+                        printf("node %d is color %d, v_%d_%d true\n", n, c, n, c);
+        }
     }
 
 private:
