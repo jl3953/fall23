@@ -82,6 +82,11 @@ public:
             }
         }
 
+        Minisat::vec<Minisat::Lit> clause;
+        for (int c = 0; c < m_nNumberOfColors; c++)
+            clause.push(Minisat::mkLit(node * m_nNumberOfColors + c));
+        m_solver.addClause(clause);
+
     }
 
     void addEdgeColoringConstraints(int n1, int n2) {
