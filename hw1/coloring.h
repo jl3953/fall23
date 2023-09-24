@@ -76,7 +76,7 @@ public:
             for (int c2 = c1 + 1; c2 < m_nNumberOfColors; c2++) {
                 Minisat::Var v_n_c1 = node * m_nNumberOfColors + c1;
                 Minisat::Var v_n_c2 = node * m_nNumberOfColors + c2;
-                printf("coloring: v_%d_%d %d = FALSE or v_%d_%d %d = FALSE\n", node, c1, v_n_c1, node, c2, v_n_c2);
+//                printf("jenndebug coloring: v_%d_%d %d = FALSE or v_%d_%d %d = FALSE\n", node, c1, v_n_c1, node, c2, v_n_c2);
                 m_solver.addClause(Minisat::mkLit(v_n_c1, FALSE),
                                    Minisat::mkLit(v_n_c2, FALSE));
             }
@@ -85,7 +85,7 @@ public:
         Minisat::vec<Minisat::Lit> clause;
         for (int c = 0; c < m_nNumberOfColors; c++) {
             clause.push(Minisat::mkLit(node * m_nNumberOfColors + c));
-            printf("v_%d_%d = TRUE or ", node, c);
+//            printf("jenndebug v_%d_%d = TRUE or ", node, c);
         }
         printf("\n");
         m_solver.addClause(clause);
@@ -101,7 +101,7 @@ public:
             Minisat::Var v_n1_c = n1 * m_nNumberOfColors + c;
             Minisat::Var v_n2_c = n2 * m_nNumberOfColors + c;
 
-            printf("edge: v_%d_%d %d= FALSE or v_%d_%d %d= FALSE\n", n1, c, v_n1_c, n2, c, v_n2_c);
+//            printf("jenndebug edge: v_%d_%d %d= FALSE or v_%d_%d %d= FALSE\n", n1, c, v_n1_c, n2, c, v_n2_c);
             m_solver.addClause(Minisat::mkLit(v_n1_c, FALSE),
                                Minisat::mkLit(v_n2_c, FALSE));
         }
@@ -118,7 +118,7 @@ public:
             // Now add constraints for the edges
             vector<int> edges = m_graph.getEdgesForNode(n);
             for (int adjcent = 0; adjcent < edges.size(); adjcent++) {
-                printf("node %d, adjacent %d\n", n, edges[adjcent]);
+//                printf("jenndebug node %d, adjacent %d\n", n, edges[adjcent]);
                 addEdgeColoringConstraints(n, edges[adjcent]);
             }
         }
@@ -158,13 +158,14 @@ public:
                     solution.push_back(m_solver.modelValue(v_n_c));
 
                     if (m_solver.modelValue(n * m_nNumberOfColors + c) == Minisat::l_True) {
-                        printf("node %d is color %d, v_%d_%d true\n", n, c, n, c);
+                        printf("jenndebug node %d is color %d, v_%d_%d true, ", n, c, n, c);
 
                         // add to clause
                         clause.push(Minisat::mkLit(v_n_c, FALSE));
                     }
                 }
             }
+            printf("\n");
             allColoring.push_back(solution);
             m_solver.addClause(clause);
             res = m_solver.solve();
