@@ -87,7 +87,7 @@ public:
             clause.push(Minisat::mkLit(node * m_nNumberOfColors + c));
 //            printf("jenndebug v_%d_%d = TRUE or ", node, c);
         }
-        printf("\n");
+//        printf("\n");
         m_solver.addClause(clause);
 
     }
@@ -168,31 +168,32 @@ public:
             res = m_solver.solve();
         }
 
-        for (const auto &solution: allColoring) {
-            printf("jenndebug ");
-            for (int n = 0; n < m_graph.getNumberOfNodes(); n++) {
-                for (int c = 0; c < m_nNumberOfColors; c++) {
-                    if (solution[n * m_nNumberOfColors + c] == Minisat::l_True)
-                        printf("n%d=%d, ", n, c);
-                }
-            }
-            printf("\n");
-        }
+//        for (const auto &solution: allColoring) {
+//            printf("jenndebug ");
+//            for (int n = 0; n < m_graph.getNumberOfNodes(); n++) {
+//                for (int c = 0; c < m_nNumberOfColors; c++) {
+//                    if (solution[n * m_nNumberOfColors + c] == Minisat::l_True)
+//                        printf("n%d=%d, ", n, c);
+//                }
+//            }
+//            printf("\n");
     }
+}
 
 private:
-    Minisat::Var getNodeHasColorVar(int node, int color) {
-        assert(node < m_graph.getNumberOfNodes() &&
-               color < m_nNumberOfColors);
 
-        return (color * m_graph.getNumberOfNodes()) + node;
-    }
+Minisat::Var getNodeHasColorVar(int node, int color) {
+    assert(node < m_graph.getNumberOfNodes() &&
+           color < m_nNumberOfColors);
+
+    return (color * m_graph.getNumberOfNodes()) + node;
+}
 
 private:
-    const Graph &m_graph;
-    int m_nNumberOfColors;
+const Graph &m_graph;
+int m_nNumberOfColors;
 
-    Minisat::Solver m_solver;
+Minisat::Solver m_solver;
 };
 
 #endif // COLORING_H_
