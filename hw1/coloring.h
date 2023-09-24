@@ -177,23 +177,23 @@ public:
 //                }
 //            }
 //            printf("\n");
+//    }
     }
-}
 
 private:
 
-Minisat::Var getNodeHasColorVar(int node, int color) {
-    assert(node < m_graph.getNumberOfNodes() &&
-           color < m_nNumberOfColors);
+    Minisat::Var getNodeHasColorVar(int node, int color) {
+        assert(node < m_graph.getNumberOfNodes() &&
+               color < m_nNumberOfColors);
 
-    return (color * m_graph.getNumberOfNodes()) + node;
-}
+        return (color * m_graph.getNumberOfNodes()) + node;
+    }
 
 private:
-const Graph &m_graph;
-int m_nNumberOfColors;
+    const Graph &m_graph;
+    int m_nNumberOfColors;
 
-Minisat::Solver m_solver;
+    Minisat::Solver m_solver;
 };
 
 #endif // COLORING_H_
