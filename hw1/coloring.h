@@ -155,7 +155,7 @@ public:
                     Minisat::Var v_n_c = n * m_nNumberOfColors + c;
 
                     // add coloring to solution
-                    solution.push_back(m_solver.modelValue(var_n_c));
+                    solution.push_back(m_solver.modelValue(v_n_c));
 
                     if (m_solver.modelValue(n * m_nNumberOfColors + c) == Minisat::l_True) {
                         printf("node %d is color %d, v_%d_%d true\n", n, c, n, c);
