@@ -82,7 +82,7 @@ public:
             }
         }
 
-        Minisat::vec<Minisat::Lit> clause;
+        Minisat::vec <Minisat::Lit> clause;
         for (int c = 0; c < m_nNumberOfColors; c++) {
             clause.push(Minisat::mkLit(node * m_nNumberOfColors + c));
 //            printf("jenndebug v_%d_%d = TRUE or ", node, c);
@@ -147,7 +147,7 @@ public:
 
         bool res = m_solver.solve();
         while (res) {
-            vector<Minisat::lbool> solution;
+            vector <Minisat::lbool> solution;
             Minisat::vec <Minisat::Lit> clause;
             for (int n = 0; n < m_graph.getNumberOfNodes(); n++) {
                 for (int c = 0; c < m_nNumberOfColors; c++) {
@@ -158,8 +158,6 @@ public:
                     solution.push_back(m_solver.modelValue(v_n_c));
 
                     if (m_solver.modelValue(n * m_nNumberOfColors + c) == Minisat::l_True) {
-                        printf("jenndebug node %d is color %d, v_%d_%d true, ", n, c, n, c);
-
                         // add to clause
                         clause.push(Minisat::mkLit(v_n_c, FALSE));
                     }
@@ -169,6 +167,17 @@ public:
             allColoring.push_back(solution);
             m_solver.addClause(clause);
             res = m_solver.solve();
+        }
+
+        for (const auto &solution: allColoring) {
+            printf("jenndebug ");
+            for (int n = 0; n < m_graph.getNumberOfNodes(); n++) {
+                for (int c = 0; c < m_nNumberOfColors; c++) {
+                    if (solution[n * m_nNumberOfColors + c] == Minisat::l_True)
+                        printf("n%d=%d, ");
+                }
+            }
+            printf("\n");
         }
     }
 
